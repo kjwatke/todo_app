@@ -3,19 +3,33 @@ const todoUL = document.querySelector('#todo-list');
 const input = document.querySelector('#todo-input');
 const form = document.querySelector('form');
 
+
 // On initial load, get all todos from the db and print them to the page.
 getTodos();
 
-
-  // Cancel form submission.
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
+// Wait for todos to load from database before attempting to add listener to icons. Call deleteTodo to remove it from the db.
+setTimeout(() => {
+  const delBtns = document.querySelectorAll('#icon');
+  console.log(delBtns);
+  delBtns.forEach((icon) => {
+    icon.addEventListener('click', (e) => {
+      deleteTodo(e);
+    });
   });
+}, 100);
 
-  // On submit, add a new todo to the database and then append the new item to the page for the user to view.
+
+// Cancel form submission.
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+});
+
+// On submit, add a new todo to the database and then append the new item to the page for the user to view.
 input.addEventListener('keypress', (e) => {
   postTodos(e);
 });
+
+
   
 // Retrieve the current todos from the database.
 function getTodos () {
@@ -47,9 +61,11 @@ function postTodos(e) {
 
 // Append a new LI item to the DOM.
 function addTodo(name) {
-  let icon = '<i class="fas fa-trash"></i>';
+  let icon = '<i class="fas fa-trash" id="icon"></i>';
   let item = '<li class="todo">' + name + icon + '</li>';
-  
   todoUL.innerHTML += item;
-  // todoUL.innerHTML += icon;
+}
+
+function deleteTodo(e) {
+  console.log(e);
 }
