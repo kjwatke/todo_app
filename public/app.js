@@ -47,6 +47,9 @@ function postTodos(e) {
 
 // Append a new LI item to the DOM.
 function addTodo(name) {
-  let item = '<li>' + name + '</li>';
+  let icon = '<i class="fas fa-trash"></i>';
+  let item = '<li class="todo">' + name + icon + '</li>';
+  
   todoUL.innerHTML += item;
+  // todoUL.innerHTML += icon;
 }

@@ -117,6 +117,41 @@ h1 {
   transition: all .3s cubic-bezier(0.47, 0, 0.745, 0.715);
 }
 
+/* Styles for the red x to delete a todo which will show and hide, depending on what the user is doing.*/
+i {
+  margin-left: 20px;
+  opacity: 0;
+  animation: all 2s ease;
+}
+
+#todo-list li:hover  > i{
+  animation: opac .5s cubic-bezier(0.86, 0, 0.07, 1);
+  opacity: 1;
+  color:#EF2E3B;
+}
+
+@keyframes opac {
+  0%
+  {
+    opacity: 0;
+
+  }
+  50%
+  {
+    opacity: .35
+  }
+  75%
+  {
+    opacity: .60;
+    color: #EF2E3B;
+  }
+  100%
+  {
+    opacity: .90;
+    color: #EF2E3B;
+  }
+}
+
 /*Footer Styles*/
 footer {
   margin-top: 22rem;
