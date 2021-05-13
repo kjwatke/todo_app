@@ -1,0 +1,132 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+body {
+  border: none;
+  padding: 0;
+  background: #284B63;
+  margin: 0;
+  font-family: Roboto, 'Fira Code', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+h1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-shadow: 3px 3px #000;
+  padding-bottom: 2rem;
+}
+
+#title {
+  font-weight: 300;
+  font-size: 3.7rem;
+}
+
+#title > #inner-title {
+  font-weight: 600;
+  font-size: 4.2rem;
+}
+
+.container {
+  display: flex;
+  justify-content: s[space-between];
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 5rem;
+  word-spacing: 2px;
+}
+
+#todo-input {
+  width: 100%;
+  font-size: 2rem;
+  text-align: center;
+  padding-top: 20px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  background: #284B63;
+  color: #fff;
+  letter-spacing: 3px;
+  outline: none;
+}
+
+#form-parent {
+  border: none;
+  width: 50%;
+  margin-top: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+#form-parent label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+  color: #2DE1FC;
+}
+
+#form-parent label::after {
+  content: "";
+  position: absolute;
+  border-bottom: 5px solid #EF2E3B;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  bottom: -1px;
+  transform: translate(-100%);
+  transition: transform .4s ease;
+}
+
+#content-todo {
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  transition: all .3s ease;
+}
+
+/* Move the Label up when user clicks into input field. */
+#form-parent #todo-input:focus + #label-todo #content-todo,
+#form-parent #todo-input:valid + #label-todo #content-todo {
+  transform: translateY(-150%);
+  font-size: 14px;
+}
+
+/* Change the color of the border on the input field when user clicks into it.*/
+#form-parent input:focus + #label-todo::after,
+#form-parent input:valid + #label-todo::after {
+  transform: translateX(0%);
+}
+
+/* Change the border color to green when form requirements are satisfied by user.*/
+#form-parent #todo-input:valid + #label-todo #content-todo,
+#form-parent #todo-input:valid + #label-todo::after {
+  border-color:  #AEF78E;
+  transition: all .2s cubic-bezier(0.47, 0, 0.745, 0.715);
+}
+
+/* Change border color to red when from requirements are not satisfied by user.*/
+#form-parent #todo-input:invalid + #label-todo #content-todo,
+#form-parent #todo-input:invalid + #label-todo::after {
+  border-color:  #EF2E3B;
+  color: #2DE1FC;
+  transition: all .3s cubic-bezier(0.47, 0, 0.745, 0.715);
+}
+
+/*Footer Styles*/
+footer {
+  margin-top: 22rem;
+  text-align: center;
+}
+
+#preview {
+  margin-top: -2px;
+  font-size: 1.5rem;
+  text-transform: lowercase;
+  font-weight: lighter;
+
+}
