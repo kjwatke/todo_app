@@ -37,6 +37,7 @@ function postTodos(e) {
     })
     .then((newTodo) => {
       addTodo(newTodo.data.name);
+      input.value = '';
     })
     .catch((e) => {
       console.log(e);
