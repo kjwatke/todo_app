@@ -118,7 +118,7 @@ h1 {
 }
 
 /* Styles for the red x to delete a todo which will show and hide, depending on what the user is doing.*/
-i {
+#icon {
   margin-left: 20px;
   opacity: 0;
   animation: all 2s ease;

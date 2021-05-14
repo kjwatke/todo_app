@@ -52,9 +52,10 @@ function postTodos(e) {
 // Append a new LI item to the DOM.
 function addTodo(name, _id) {
   if (name !== 'ValidationError') {
-    let icon = '<i class="fas fa-trash" id="icon"></i>';
-    let item = '<li class="todo">' + name + icon + '</li>';
+    let del = '<i class="fas fa-trash" id="icon"></i>';
+    let item = '<li class="todo">' + name + del + '</li>';
     todoUL.innerHTML += item;
+
     map.push({name, _id});
   } else {
     alert('this is not a valid todo, please enter a todo');
@@ -86,8 +87,14 @@ function deleteTodo(e) {
 function addListeners() {
   setTimeout(function() {
     todoUL.childNodes.forEach((node) => {
-      node.childNodes[1].removeEventListener('click', addListeners)
+      console.log('node: ', node);
+      node.childNodes[1].removeEventListener('click', addListeners);
+      node.addEventListener('click', (e) => {
+        e.target.classList.toggle('completed');
+      });
       node.childNodes[1].addEventListener('click', (e) => {
+        console.log(node.childNodes);
+        console.log('clicked');
         deleteTodo(node);
         node.remove();
       });
