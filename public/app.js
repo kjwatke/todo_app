@@ -39,7 +39,7 @@ function postTodos(e) {
       data: { name: input.value }
     })
     .then((newTodo) => {
-      addTodo(newTodo.data.name);
+      addTodo(newTodo.data.name, newTodo.data._id);
       input.value = '';
       addListeners();
     })
@@ -50,28 +50,32 @@ function postTodos(e) {
 }
 
 // Append a new LI item to the DOM.
-function addTodo(name) {
+function addTodo(name, _id) {
   let icon = '<i class="fas fa-trash" id="icon"></i>';
   let item = '<li class="todo">' + name + icon + '</li>';
   todoUL.innerHTML += item;
+  map.push({name, _id});
 }
 
+// Delete a todo when a user clicks the trash icon and remove the LI element from the DOM.
 function deleteTodo(e) {
-let _id = map.find((item) => {
-  return item.name.toLowerCase() === e.innerText.toLowerCase();
-});
+  let _id = 0;
 
-  // axios({
-  //   method: 'delete',
-  //   url: '/api/todos',
+  map.forEach((item) => {
+    if (item.name.toLowerCase() === e.innerText.toLowerCase()) {
+      _id = item._id;
+    }
+  });
+  
+  let url = 'api/todos/' + _id;
 
-  // axios({
-  //   method: 'get',
-  //   url: '/api/todos'
-  // })
-  // .then((data) => {
-  //   console.log(data);
-  // });
+  axios({
+    method: 'delete',
+    url: url,
+  })
+  .then((data) => {
+    console.log(data);
+  });
 }
 
 // Tear down and event listeners that were on from initial page load, add a click listener to all todos on the DOM.
