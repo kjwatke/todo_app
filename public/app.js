@@ -11,6 +11,7 @@ getTodos();
 // Cancel form submission.
 form.addEventListener('submit', (e) => {
   e.preventDefault();
+  e.stopPropagation();
 });
 
 // On submit, add a new todo to the database and then append the new item to the page for the user to view.
@@ -23,8 +24,8 @@ function getTodos () {
   axios('/api/todos')
     .then((res) => {
       res.data.forEach(todo => {
-        addTodo(todo.name);
-        map.push({name: todo.name, _id: todo._id});
+        addTodo(todo.name, todo._id, todo.completed);
+        map.push({name: todo.name, _id: todo._id, completed: todo.completed});
       });
     });
     addListeners();
@@ -39,7 +40,7 @@ function postTodos(e) {
       data: { name: input.value }
     })
     .then((newTodo) => {
-      addTodo(newTodo.data.name, newTodo.data._id);
+      addTodo(newTodo.data.name, newTodo.data._id, newTodo.data.completed);
       input.value = '';
       addListeners();
     })
@@ -50,16 +51,22 @@ function postTodos(e) {
 }
 
 // Append a new LI item to the DOM.
-function addTodo(name, _id) {
+function addTodo(name, _id, completed) {
   if (name !== 'ValidationError') {
     let del = '<i class="fas fa-trash" id="icon"></i>';
     let item = '<li class="todo">' + name + del + '</li>';
     todoUL.innerHTML += item;
-
     map.push({name, _id});
   } else {
     alert('this is not a valid todo, please enter a todo');
   }
+
+  todoUL.childNodes.forEach((el) => {
+    if (completed) {
+      el.classList.toggle('completed');
+      console.log('el: ', el);
+    }
+  });
 }
 
 // Delete a todo when a user clicks the trash icon and remove the LI element from the DOM.
@@ -87,17 +94,38 @@ function deleteTodo(e) {
 function addListeners() {
   setTimeout(function() {
     todoUL.childNodes.forEach((node) => {
-      console.log('node: ', node);
       node.childNodes[1].removeEventListener('click', addListeners);
       node.addEventListener('click', (e) => {
+        updateTodo(e.target.innerText)
         e.target.classList.toggle('completed');
       });
       node.childNodes[1].addEventListener('click', (e) => {
-        console.log(node.childNodes);
-        console.log('clicked');
         deleteTodo(node);
         node.remove();
       });
     });
   }, 100)
+}
+
+function updateTodo(name) {
+  let id, url, isDone;
+  
+  map.forEach((todo) => {
+    if (todo.name.toLowerCase() === name.toLowerCase()) {
+      id = todo._id;
+      todo.completed = !todo.completed;
+      isDone = todo.completed;
+    }
+  });
+
+  url = '/api/todos/' + id;
+
+  axios.put(url, {
+    completed: !isDone
+  })
+  .then((todo) => {
+    
+    todo.data.completed = !isDone;
+
+  });
 }
