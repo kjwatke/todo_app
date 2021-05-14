@@ -1,12 +1,9 @@
-
 const todoUL = document.querySelector('#todo-list');
 const input = document.querySelector('#todo-input');
 const form = document.querySelector('form');
 
-
 // On initial load, get all todos from the db and print them to the page.
 getTodos();
-
 
 // Cancel form submission.
 form.addEventListener('submit', (e) => {
@@ -17,8 +14,6 @@ form.addEventListener('submit', (e) => {
 input.addEventListener('keypress', (e) => {
   postTodos(e);
 });
-
-
 
 // Retrieve the current todos from the database.
 function getTodos () {
@@ -58,15 +53,23 @@ function addTodo(name) {
 }
 
 function deleteTodo(e) {
-  console.log(e);
+  axios({
+    method: 'delete',
+    url: '/api/todos',
+
+  })
+
 }
 
-
+// Tear down and event listeners that were on from initial page load, add a click listener to all todos on the DOM.
 function addListeners() {
   setTimeout(function() {
     todoUL.childNodes.forEach((node) => {
       node.childNodes[1].removeEventListener('click', addListeners)
       node.childNodes[1].addEventListener('click', (e) => {
+        // deleteTodo(e);
+        console.log(node);
+        node.remove();
       });
     });
   }, 100)
