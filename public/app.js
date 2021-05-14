@@ -51,10 +51,14 @@ function postTodos(e) {
 
 // Append a new LI item to the DOM.
 function addTodo(name, _id) {
-  let icon = '<i class="fas fa-trash" id="icon"></i>';
-  let item = '<li class="todo">' + name + icon + '</li>';
-  todoUL.innerHTML += item;
-  map.push({name, _id});
+  if (name !== 'ValidationError') {
+    let icon = '<i class="fas fa-trash" id="icon"></i>';
+    let item = '<li class="todo">' + name + icon + '</li>';
+    todoUL.innerHTML += item;
+    map.push({name, _id});
+  } else {
+    alert('this is not a valid todo, please enter a todo');
+  }
 }
 
 // Delete a todo when a user clicks the trash icon and remove the LI element from the DOM.
