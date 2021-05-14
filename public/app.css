@@ -127,7 +127,6 @@ h1 {
 #todo-list li:hover  > i{
   animation: opac .3s cubic-bezier(0.86, 0, 0.07, 1);
   opacity: 1;
-  color:#EF2E3B;
 }
 
 @keyframes opac {
@@ -143,12 +142,29 @@ h1 {
   75%
   {
     opacity: .60;
-    color: #EF2E3B;
   }
   100%
   {
     opacity: .90;
-    color: #EF2E3B;
+  }
+}
+
+.completed {
+  text-decoration-line: line-through;
+  animation: strike .5s ease-in;
+  opacity: .5;
+}
+
+@keyframes strike {
+  0%
+  {
+    text-decoration-line: line-through;
+    opacity: .5;
+  }
+  100%
+  {
+    text-decoration-line: line-through;
+    opacity: .5;
   }
 }
 
