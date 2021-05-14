@@ -1,6 +1,9 @@
+
 const todoUL = document.querySelector('#todo-list');
 const input = document.querySelector('#todo-input');
 const form = document.querySelector('form');
+let _id;
+let map = [];
 
 // On initial load, get all todos from the db and print them to the page.
 getTodos();
@@ -20,7 +23,8 @@ function getTodos () {
   axios('/api/todos')
     .then((res) => {
       res.data.forEach(todo => {
-        addTodo(todo.name)
+        addTodo(todo.name);
+        map.push({name: todo.name, _id: todo._id});
       });
     });
     addListeners();
@@ -53,12 +57,21 @@ function addTodo(name) {
 }
 
 function deleteTodo(e) {
-  axios({
-    method: 'delete',
-    url: '/api/todos',
+let _id = map.find((item) => {
+  return item.name.toLowerCase() === e.innerText.toLowerCase();
+});
 
-  })
+  // axios({
+  //   method: 'delete',
+  //   url: '/api/todos',
 
+  // axios({
+  //   method: 'get',
+  //   url: '/api/todos'
+  // })
+  // .then((data) => {
+  //   console.log(data);
+  // });
 }
 
 // Tear down and event listeners that were on from initial page load, add a click listener to all todos on the DOM.
@@ -67,8 +80,7 @@ function addListeners() {
     todoUL.childNodes.forEach((node) => {
       node.childNodes[1].removeEventListener('click', addListeners)
       node.childNodes[1].addEventListener('click', (e) => {
-        // deleteTodo(e);
-        console.log(node);
+        deleteTodo(node);
         node.remove();
       });
     });
