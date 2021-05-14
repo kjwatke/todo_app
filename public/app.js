@@ -7,17 +7,6 @@ const form = document.querySelector('form');
 // On initial load, get all todos from the db and print them to the page.
 getTodos();
 
-// Wait for todos to load from database before attempting to add listener to icons. Call deleteTodo to remove it from the db.
-setTimeout(() => {
-  const delBtns = document.querySelectorAll('#icon');
-  console.log(delBtns);
-  delBtns.forEach((icon) => {
-    icon.addEventListener('click', (e) => {
-      deleteTodo(e);
-    });
-  });
-}, 100);
-
 
 // Cancel form submission.
 form.addEventListener('submit', (e) => {
@@ -30,7 +19,7 @@ input.addEventListener('keypress', (e) => {
 });
 
 
-  
+
 // Retrieve the current todos from the database.
 function getTodos () {
   axios('/api/todos')
@@ -39,6 +28,7 @@ function getTodos () {
         addTodo(todo.name)
       });
     });
+    addListeners();
 }
 
 // Create a post request to post the new todo to the database.
@@ -52,6 +42,7 @@ function postTodos(e) {
     .then((newTodo) => {
       addTodo(newTodo.data.name);
       input.value = '';
+      addListeners();
     })
     .catch((e) => {
       console.log(e);
@@ -68,4 +59,15 @@ function addTodo(name) {
 
 function deleteTodo(e) {
   console.log(e);
+}
+
+
+function addListeners() {
+  setTimeout(function() {
+    todoUL.childNodes.forEach((node) => {
+      node.childNodes[1].removeEventListener('click', addListeners)
+      node.childNodes[1].addEventListener('click', (e) => {
+      });
+    });
+  }, 100)
 }
